@@ -1,0 +1,5 @@
+tests/megatest*
+testresults/*
+nimcache/*
+outputExpected.txt
+outputGotten.txt
