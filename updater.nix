@@ -1,4 +1,4 @@
-{ lib, nimPackages, fetchurl, fetchFromGitHub, coreutils, gnutar }:
+{ lib, pkgs, nimPackages, fetchurl, fetchFromGitHub, coreutils, gnutar }:
 
 let q = fetchFromGitHub {
   owner = "OpenSystemsLab";
@@ -12,6 +12,7 @@ nimPackages.buildNimPackage rec {
   version = "0.1";
 
   nimBinOnly = true;
+  nimRelease = true;
 
   nimDefines = [ "ssl" ];
 
@@ -20,9 +21,13 @@ nimPackages.buildNimPackage rec {
   doCheck = true;
   checkPhase = ''testament all'';
 
-  buildInputs = with nimPackages; [
+  nativeBuildInputs = [ pkgs.removeReferencesTo ];
+  buildInputs = [ pkgs.nim-unwrapped ] ++ (with nimPackages; [
     q
-  ];
+  ]);
 
   propagatedBuildInputs = [ coreutils gnutar ];
+  postFixup = ''
+    remove-references-to -t ${pkgs.nim-unwrapped} $out/bin/updater
+  '';
 }
