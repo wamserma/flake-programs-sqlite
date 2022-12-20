@@ -1,0 +1,35 @@
+name: "Update Channel Info"
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: fetch from cache
+        uses: actions/cache@v3
+        with:
+          path: updater.bundle
+          key: ${{ runner.os }}-bundle-${{ hashFiles('**/flake.lock') }}-${{ hashFiles('**/*.nix') }}-${{ hashFiles('**/*.nim*') }}
+
+      - name: update JSON
+        run: ./updater.bundle -d:$PWD
+
+      - name: create commit
+        run: git commit -a -m "update sources.json" || true
+
+      - name: Push commit with updated inputs
+        run: |
+          git pull --rebase --autostash
+          git push
