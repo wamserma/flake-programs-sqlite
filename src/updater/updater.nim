@@ -1,7 +1,7 @@
 # Copyright 2022 Markus S. Wamser
 # SPDX: MIT
 
-import std/[json, os, re, sequtils, strformat, strutils, tempfiles, times, xmltree]
+import std/[json, os, parseopt, re, sequtils, strformat, strutils, tempfiles, times, xmltree]
 
 import osproc, streams
 
@@ -12,6 +12,11 @@ const
   channelBaseUrl = "https://channels.nixos.org/nixos-"
   releaseBaseUrl = "https://releases.nixos.org"
   jsonFile = "sources.json"
+  systemXZ = "xz"
+  systemTar = "tar"
+  systemSha256 = "sha256sum"
+  systemShell = "/bin/sh"
+  printDebugInfo = false
 
 type
   SqliteInfo* = object
@@ -82,8 +87,9 @@ proc extractProgramsSqliteHash(tarball: string): string =
   let (cfile, path) = createTempFile("nixexpr_tgz_", "_end.tmp")
   cfile.write(tarball)
   close cfile
-
-  let pout = execProcess(command ="tar -xJf " & path & " --wildcards */programs.sqlite -O | sha256sum")
+  let cmdLine = systemXZ & " --decompress --stdout " & path & " | " & systemTar & " -xf - "  & " --wildcards */programs.sqlite -O | " & systemSha256
+  let pout = execProcess(command = systemShell, args = ["-c", cmdLine], options = {poUsePath, poStdErrToStdOut})
+  if printDebugInfo: echo pout
   let hash = pout.split()[0]
   removeFile(path)
 
@@ -92,13 +98,42 @@ proc extractProgramsSqliteHash(tarball: string): string =
 proc getHashfromNixexprs(info: SqliteInfo): SqliteInfo =
   let nixexprs = fetchFile(releaseBaseUrl & info.url)
   var updatedInfo = info
+  if printDebugInfo: echo "Fetching " & releaseBaseUrl & info.url
   updatedInfo.hash = extractProgramsSqliteHash(nixexprs)
+  if printDebugInfo: echo "\\-> hash of programs.sqlite:" & updatedInfo.hash
   return updatedInfo
 
+proc writeHelp() = echo "Run as: updater --dir:path-to-json"
+proc writeVersion() = echo "updater, v.0.1.0"
+
 when isMainModule:
+  var
+    positionalArgs = newSeq[string]()
+    directories = newSeq[string]()
+    optparser = initOptParser(quoteShellCommand(commandLineParams()))
+
+  for kind, key, val in optparser.getopt():
+    case kind
+    of cmdArgument:
+      discard
+    of cmdLongOption, cmdShortOption:
+      case key
+      of "help", "h": writeHelp()
+      of "version", "v": writeVersion()
+      of "dir", "d":
+        directories.add(val)
+    of cmdEnd: assert(false) # cannot happen
+
+  if len(directories) > 1:
+    echo "Only one dir argument allowed, ignoring all but first."
+  if len(directories) < 1:
+    directories.add(".")
+  var jsonPath = directories[0]
+  normalizePathEnd(jsonPath, trailingSep = true)
+
   let
     channels = getChannels(now().utc).mapIt(fetchFile(it)).mapIt(getMetadata(it))
-    sourcesJson = parseFile(jsonFile)
+    sourcesJson = parseFile(jsonPath & jsonFile)
 
   var
     queuedInfos: seq[SqliteInfo] = @[]
@@ -113,4 +148,4 @@ when isMainModule:
   for c in newInfos:
     sourcesJson[c.rev] = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
 
-  writeFile(jsonFile, pretty(sourcesJson))
+  writeFile(jsonPath & jsonFile, pretty(sourcesJson))
