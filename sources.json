@@ -34,5 +34,35 @@
     "url": "/nixos/22.11-small/nixos-22.11.862.b9aea6cbeb0/nixexprs.tar.xz",
     "nixexprs_hash": "127913f3d85a144c873133a2c72b7411ac969e451ccec8e54f3e0b0d06bad2d7",
     "programs_sqlite_hash": "7c94689a557e97fa6109d6b242bd0c34054351d3c70225332b4ece764aa1f7b4"
+  },
+  "04f574a1c0fde90b51bf68198e2297ca4e7cccf4": {
+    "name": "nixos-23.05pre435935.04f574a1c0f",
+    "url": "/nixos/unstable/nixos-23.05pre435935.04f574a1c0f/nixexprs.tar.xz",
+    "nixexprs_hash": "d4ed4594efdb9c0763eae37c4d761f3db6d9a8b822c77c9123d18199dd71195a",
+    "programs_sqlite_hash": "d88cef77d05af88eb09fd74060fb6d151763a4879bc930f710961495e381dcb9"
+  },
+  "bfb04388d42ff49e5e81da9f0bfcb48a6367273d": {
+    "name": "nixos-22.05.4539.bfb04388d42",
+    "url": "/nixos/22.05/nixos-22.05.4539.bfb04388d42/nixexprs.tar.xz",
+    "nixexprs_hash": "5ce548bc01658d710352e278d264ca7f2c529bd7bf106fd77b43ba82810a8801",
+    "programs_sqlite_hash": "6ff691b22817b135e72f0b2fc3c8d816419262cc716d90eba10ddaeb0f92933f"
+  },
+  "0938d73bb143f4ae037143572f11f4338c7b2d1c": {
+    "name": "nixos-22.11.1008.0938d73bb14",
+    "url": "/nixos/22.11/nixos-22.11.1008.0938d73bb14/nixexprs.tar.xz",
+    "nixexprs_hash": "b65348d6885dc13b3dc1304ba6a0a4f06667a9944c5907137fc79780e0cf7174",
+    "programs_sqlite_hash": "a342d829c471f1dafab0896efd8b691958c0334cd2cede7ae78a6167a0a53d16"
+  },
+  "ff07b107adeda2164b29f8feb4a86ed012854dfb": {
+    "name": "nixos-23.05pre436120.ff07b107ade",
+    "url": "/nixos/unstable-small/nixos-23.05pre436120.ff07b107ade/nixexprs.tar.xz",
+    "nixexprs_hash": "03c35a696e8d05d51cc622dffe6b7c9f270b9ad635eff682cd8c3eedb9a16c50",
+    "programs_sqlite_hash": "23c72b5025a38250c645f5008fc4ee1c7b2c4fffb2f206f4558942fe68fbb11a"
+  },
+  "ba86945ee00a5c046f68451c1db279ea5e2bc797": {
+    "name": "nixos-22.11.1059.ba86945ee00",
+    "url": "/nixos/22.11-small/nixos-22.11.1059.ba86945ee00/nixexprs.tar.xz",
+    "nixexprs_hash": "6bda28ac8d6cc8cf71d444503d3b974c03b5bda1e58a850490188035975e044b",
+    "programs_sqlite_hash": "d91745ce3aa0512d86c4fdc2dbc14e81227a5fa60c44a021068e77b69653aae5"
   }
 }
