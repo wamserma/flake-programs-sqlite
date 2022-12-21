@@ -1,8 +1,10 @@
-WARNING: There will be a lot of `push --force` until things run smooth.
-
 # programs.sqlite for Nix Flake based systems
 
+[![Update Channel Info](https://github.com/wamserma/flake-programs-sqlite/actions/workflows/scrape.yml/badge.svg?branch=main)](https://github.com/wamserma/flake-programs-sqlite/actions/workflows/scrape.yml)
+
 ## TL;DR
+
+(assuming a flake similar to <https://nixos.wiki/wiki/Flakes#Using_nix_flakes_with_NixOS>)
 
 Add to `inputs` in `flake.nix`:
 ```nix
@@ -12,10 +14,12 @@ flake-programs-sqlite.inputs.nixpkgs.follows = "nixpkgs";
 
 Add `flake-programs-sqlite` to the arguments of the flake's `outputs` function.
 
-Add to system configuration:
+Add `programs-sqlite-db = flake-programs-sqlite.packages.${system}.programs-sqlite` to the `specialArgs` argument of `lib.nixosSystem`.
+
+Add to `programs-sqlite-db`to the inputs of your system configuration (`configuration.nix`) and to the configuration itself add:
 
 ```nix
-programs.command-not-found.dbPath = flake-programs-sqlite#programs-sqlite;
+programs.command-not-found.dbPath = programs-sqlite-db;
 ```
 
 ## Why?
