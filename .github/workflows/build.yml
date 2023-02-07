@@ -21,4 +21,4 @@ jobs:
         key: ${{ runner.os }}-bundle-${{ hashFiles('**/flake.lock') }}-${{ hashFiles('**/*.nix') }}-${{ hashFiles('**/*.nim*') }}
 
     - run: nix build .#updater
-    - run: nix bundle -o updater.bundle.lnk .#updater && cp $(readlink updater.bundle.lnk) updater.bundle && chmod u+w updater.bundle
+    - run: nix bundle -o updater.bundle.lnk .#packages.x86_64-linux.updater && cp $(readlink updater.bundle.lnk) updater.bundle && chmod u+w updater.bundle
