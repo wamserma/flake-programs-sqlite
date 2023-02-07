@@ -26,7 +26,7 @@ programs.command-not-found.dbPath = programs-sqlite-db;
 
 NixOS systems configured with flakes and thus lacking channels usually have a broken
 `command-not-found`. The reason is that the backing database `programs.sqlite` is only
-available on channels. The problem is that the channel url can not be determined from
+available on channels. The problem is that the channel URL can not be determined from
 the `nixpkgs` revision alone, as it also contains a build number.
 
 This is an attempt to provide a usable solution, motivated by <https://discourse.nixos.org/t/how-to-specify-programs-sqlite-for-command-not-found-from-flakes/22722/3>
@@ -52,12 +52,24 @@ Development happens on the `tooling` branch, which is then merged into the `main
 branch. Updates to the JSON file go directly to `main`. Releases of the tooling are
 also cut from the `tooling` branch. There are no releases for the JSON files.
 
+## Fetching selected channel revisions
+
+e.g. to fetch info for older revisions/releases from before this project was started
+
+```sh
+[ -f sources.json ] || echo {} > sources.json
+nix run github:wamserma/flake-programs-sqlite#updater -- --dir:. --channel:https://releases.nixos.org/nixos/20.03/nixos-20.03.2400.ff1b66eaea4
+```
+
+Multiple channels/revisions may be passed for a single run.  
+If no channel is given, the current channels are guessed and their latest revisions are fetched.
+
 ## Alternatives
 
 - [nix-index](https://github.com/bennofs/nix-index#usage-as-a-command-not-found-replacement)
 
 ## Licensing
 
-The Nim code to scrape the metadata is released under MIT License.
-The Nix code to provide is the FODs is released under MIT License.
+The Nim code to scrape the metadata is released under MIT License.  
+The Nix code to provide the FODs is released under MIT License.  
 The database itself (JSON) is public domain.

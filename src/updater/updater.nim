@@ -68,7 +68,7 @@ proc fetchFile(channelUrl: string): string =
   return client.getContent(channelUrl)
 
 proc getMetadata*(htmlRaw: string): SqliteInfo =
-  # scrape the data from the website ans build an SqliteInfo object
+  # scrape the data from the website and build an SqliteInfo object
   var
     info: SqliteInfo
 
@@ -103,13 +103,18 @@ proc getHashfromNixexprs(info: SqliteInfo): SqliteInfo =
   if printDebugInfo: echo "\\-> hash of programs.sqlite:" & updatedInfo.hash
   return updatedInfo
 
-proc writeHelp() = echo "Run as: updater --dir:path-to-json"
-proc writeVersion() = echo "updater, v.0.1.0"
+proc writeHelp() =
+    echo "Run as: updater --dir:path-to-json\n or as: updater --dir:path-to-json --channel:channel-revision"
+    quit(QuitSuccess)
+proc writeVersion() =
+    echo "updater, v0.2.0"
+    quit(QuitSuccess)
 
 when isMainModule:
   var
     positionalArgs = newSeq[string]()
     directories = newSeq[string]()
+    requestedChannels = newSeq[string]()
     optparser = initOptParser(quoteShellCommand(commandLineParams()))
 
   for kind, key, val in optparser.getopt():
@@ -122,6 +127,8 @@ when isMainModule:
       of "version", "v": writeVersion()
       of "dir", "d":
         directories.add(val)
+      of "channel", "c":
+        requestedChannels.add(val)
     of cmdEnd: assert(false) # cannot happen
 
   if len(directories) > 1:
@@ -131,8 +138,11 @@ when isMainModule:
   var jsonPath = directories[0]
   normalizePathEnd(jsonPath, trailingSep = true)
 
+  if len(requestedChannels) < 1:
+    requestedChannels.add(getChannels(now().utc))
+
   let
-    channels = getChannels(now().utc).mapIt(fetchFile(it)).mapIt(getMetadata(it))
+    channels = requestedChannels.mapIt(fetchFile(it)).mapIt(getMetadata(it))
     sourcesJson = parseFile(jsonPath & jsonFile)
 
   var
