@@ -2020,5 +2020,11 @@
     "url": "/nixos/22.11/nixos-22.11.2720.50c23cd4ff6/nixexprs.tar.xz",
     "nixexprs_hash": "bcfe36ea0f71b2ecae040d2649a97c11e40d3ea3f79f35f630910683a3d70099",
     "programs_sqlite_hash": "4d183ecff10acfb4e9c8b6d3a663de6efb946b565bad576c15451c7e94f226ee"
+  },
+  "5798b8c569396eca709a18d5391d4e18fc5124db": {
+    "name": "nixos-23.05pre457442.5798b8c5693",
+    "url": "/nixos/unstable-small/nixos-23.05pre457442.5798b8c5693/nixexprs.tar.xz",
+    "nixexprs_hash": "89737bd7b0c0d4a1a9fa674de823edd78d91e598ed6ea4868a8e9fd8fba614c3",
+    "programs_sqlite_hash": "22a331d3e233018f03f65468876fa982ad4a80cabb7654ba463f545cab9a5999"
   }
 }
