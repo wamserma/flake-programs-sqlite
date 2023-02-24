@@ -2014,5 +2014,11 @@
     "url": "/nixos/22.11-small/nixos-22.11.2745.38f87b67bc3/nixexprs.tar.xz",
     "nixexprs_hash": "4e74e1b9602b57e0d41c6ff09ad873d2aba5a2c50aa447f3672309a0d50d41c4",
     "programs_sqlite_hash": "1363c507079b8f1e9b418f444690103199981d9a4053c5f3779c5cd45dd5b191"
+  },
+  "50c23cd4ff6c8344e0b4d438b027b3afabfe58dd": {
+    "name": "nixos-22.11.2720.50c23cd4ff6",
+    "url": "/nixos/22.11/nixos-22.11.2720.50c23cd4ff6/nixexprs.tar.xz",
+    "nixexprs_hash": "bcfe36ea0f71b2ecae040d2649a97c11e40d3ea3f79f35f630910683a3d70099",
+    "programs_sqlite_hash": "4d183ecff10acfb4e9c8b6d3a663de6efb946b565bad576c15451c7e94f226ee"
   }
 }
