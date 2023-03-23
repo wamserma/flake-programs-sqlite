@@ -2746,5 +2746,11 @@
     "url": "/nixos/unstable-small/nixos-23.05pre466889.4fabf060fa0/nixexprs.tar.xz",
     "nixexprs_hash": "2059b421b1c59a9ac42625634f72b8f93fc851542601df0621ce610fc04a9147",
     "programs_sqlite_hash": "28f9f3670fc0428b9d6a20bd37658cda4fefdaf4b514c774f01266d02f2fbf10"
+  },
+  "b33b3fa968fd3463f92ef64c27f8820480c8eeb7": {
+    "name": "nixos-23.05pre467065.b33b3fa968f",
+    "url": "/nixos/unstable-small/nixos-23.05pre467065.b33b3fa968f/nixexprs.tar.xz",
+    "nixexprs_hash": "f2f8b9ca4ced2bbef235e7c34500ac81435a1fd11ade79503ff1ac9b60542478",
+    "programs_sqlite_hash": "8891f37094a777125cb14d715e4e4926e263ac71218c763ca6bd2e6429bd5436"
   }
 }
