@@ -8,6 +8,7 @@
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        rev2db = rev: pkgs.callPackage ./programs-sqlite.nix { inherit rev; };
       in
       rec {
         packages.updater = pkgs.callPackage ./updater.nix {};
@@ -15,6 +16,8 @@
         devShell = with pkgs; mkShell {
           buildInputs = [ nim nimble-unwrapped ];
         };
-        packages.programs-sqlite = pkgs.callPackage ./programs-sqlite.nix { rev = nixpkgs.rev; };
+        packages.programs-sqlite = rev2db nixpkgs.rev;
+        nixosModules.programs-sqlite = import ./module.nix { programs-sqlite = packages.programs-sqlite; };
+        checks.vmtest = import ./test.nix { inherit pkgs; flake = self; };  # nixpkgs must be set to a revision presen in the JSON file
       });
 }

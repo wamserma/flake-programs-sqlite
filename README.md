@@ -7,16 +7,49 @@
 (assuming a flake similar to <https://nixos.wiki/wiki/Flakes#Using_nix_flakes_with_NixOS>)
 
 Add to `inputs` in `flake.nix`:
+
 ```nix
 flake-programs-sqlite.url = "github:wamserma/flake-programs-sqlite";
 flake-programs-sqlite.inputs.nixpkgs.follows = "nixpkgs";
 ```
 
+Then just add the module.
+
+### NixOS module
+
+Usage with a minimal system flake:
+
+```nix
+{
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-22.11;
+  inputs.flake-programs-sqlite.url = "github:wamserma/flake-programs-sqlite";
+  inputs.flake-programs-sqlite.inputs.nixpkgs.follows = "nixpkgs";
+
+  outputs = inputs@{ self, nixpkgs, ... }: {
+
+    nixosConfigurations.mymachine = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules =
+        [
+          (import configuration.nix)
+          inputs.flake-programs-sqlite.nixosModules.${system}.programs-sqlite
+        ];
+    };
+  };
+}
+```
+
+The module's functionality is enabled as soon as the module is imported.
+
+### alternative: without using a module
+
 Add `flake-programs-sqlite` to the arguments of the flake's `outputs` function.
 
-Add `programs-sqlite-db = flake-programs-sqlite.packages.${system}.programs-sqlite` to the `specialArgs` argument of `lib.nixosSystem`.
+Add `programs-sqlite-db = flake-programs-sqlite.packages.${system}.programs-sqlite`
+to the `specialArgs` argument of `lib.nixosSystem`.
 
-Add to `programs-sqlite-db`to the inputs of your system configuration (`configuration.nix`) and to the configuration itself add:
+Add `programs-sqlite-db`to the inputs of your system configuration (`configuration.nix`)
+and to the configuration itself add:
 
 ```nix
 programs.command-not-found.dbPath = programs-sqlite-db;
