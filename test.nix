@@ -29,7 +29,7 @@ in pkgs.nixosTest {
     };
 
     moduleConfig = { config, pkgs, ... }: {
-      imports = [ sharedModule flake.nixosModules.${system}.programs-sqlite ];
+      imports = [ sharedModule flake.nixosModules.programs-sqlite ];
       users = {
         mutableUsers = false;
         users = {

@@ -32,7 +32,7 @@ Usage with a minimal system flake:
       modules =
         [
           (import configuration.nix)
-          inputs.flake-programs-sqlite.nixosModules.${system}.programs-sqlite
+          inputs.flake-programs-sqlite.nixosModules.programs-sqlite
         ];
     };
   };
