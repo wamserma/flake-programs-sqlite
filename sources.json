@@ -4414,5 +4414,11 @@
     "url": "/nixos/unstable-small/nixos-23.05pre486509.33bd20c0b25/nixexprs.tar.xz",
     "nixexprs_hash": "073187c09d1bbcc70a6fe5d8e71655b0a9294ca134b99a262afecedba3c24ae2",
     "programs_sqlite_hash": "360e71236c0d7f00ce1003311115fefd7d5cb5572a70cb2ff784826a6a3488df"
+  },
+  "e31e2ce559a628995f6f564a80a2074b7f5dcd25": {
+    "name": "nixos-22.11.4297.e31e2ce559a",
+    "url": "/nixos/22.11-small/nixos-22.11.4297.e31e2ce559a/nixexprs.tar.xz",
+    "nixexprs_hash": "acdc3cbfe3cfdf64fa036ac2af9ca82032fa88f4db28116e017e3952a4f104ff",
+    "programs_sqlite_hash": "b43692c8c382daa14e64ac9cf474b6d1800a93eb27dafdd8b9e90b95657d108f"
   }
 }
