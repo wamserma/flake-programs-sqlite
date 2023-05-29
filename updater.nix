@@ -10,7 +10,7 @@ let
 in
 nimPackages.buildNimPackage rec {
   pname = "updater";
-  version = "0.2";
+  version = "0.2.1";
 
   nimBinOnly = true;
   nimRelease = true;
