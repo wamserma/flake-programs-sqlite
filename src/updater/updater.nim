@@ -29,6 +29,7 @@ type
 
 proc getChannels*(now: DateTime): seq[string] =
   # get the current and previous release plus unstable
+  # also take care of the time window between branch-off and relase
   var
     chans: seq[string] = @["unstable"]
     chanURLs: seq[string] = @[]
@@ -37,12 +38,17 @@ proc getChannels*(now: DateTime): seq[string] =
     y = int(now.year) %% 100
     ly = (int(now.year)-1) %% 100
     m = int(now.month)
+    d = int(now.monthday)
 
-  if 5 < m and m < 11:
-    chans.add(@[fmt"{ly:02}.11", fmt"{y:02}.05"])
-  if  m <= 5:
+  if m <= 5: # both releases from previous year
     chans.add(@[fmt"{ly:02}.05", fmt"{ly:02}.11"])
-  if m >= 11:
+  if m == 5 and d > 21: # .05 branch off, but not yet released
+    chans.add(@[fmt"{y:02}.05"])
+  if 5 < m and m <= 11: # .05 from current year, .11 from previous year
+    chans.add(@[fmt"{ly:02}.11", fmt"{y:02}.05"])
+  if m == 11 and d > 21: # .11 branch off, but not yet released
+    chans.add(@[fmt"{y:02}.11"])
+  if m > 11: # both releases from current year
     chans.add(@[fmt"{y:02}.05", fmt"{y:02}.11"])
   for suffix in ["", "-small"]:
     for chan in chans:
@@ -107,7 +113,7 @@ proc writeHelp() =
     echo "Run as: updater --dir:path-to-json\n or as: updater --dir:path-to-json --channel:channel-revision"
     quit(QuitSuccess)
 proc writeVersion() =
-    echo "updater, v0.2.0"
+    echo "updater, v0.2.1"
     quit(QuitSuccess)
 
 when isMainModule:

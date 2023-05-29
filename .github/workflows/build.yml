@@ -28,10 +28,10 @@ jobs:
 
     - name: smoke test
       run: |
-           echo {} > ${{ runner.temp }}/sources.json && \
-           nix run github:wamserma/flake-programs-sqlite#updater -- --dir:${{ runner.temp }} --channel:https://releases.nixos.org/nixos/20.03/nixos-20.03.2400.ff1b66eaea4 && \
-           cat ${{ runner.temp }}/sources.json && \
-           cd ${{ runner.temp }} && [ `nix eval --impure nixpkgs#lib.importJSON --apply 'x : (x ./sources.json)."ff1b66eaea4399d297abda7419a330239842d715".programs_sqlite_hash'` = '"6097c544f012fc21f8cff9a6305ebab335d148e6385d7288a612e10c3cc82df0"' ]
+           echo {} > ${{ runner.temp }}/sources.json
+           nix run .#updater -- --dir:${{ runner.temp }} --channel:https://releases.nixos.org/nixos/20.03/nixos-20.03.2400.ff1b66eaea4
+           cat ${{ runner.temp }}/sources.json
+           [ `nix eval --impure nixpkgs#lib.importJSON --apply "x : (x ${{ runner.temp }}/sources.json).ff1b66eaea4399d297abda7419a330239842d715.programs_sqlite_hash"` = '"6097c544f012fc21f8cff9a6305ebab335d148e6385d7288a612e10c3cc82df0"' ]
 
     - name: integration test
       run: nix build --override-input nixpkgs "github:NixOS/nixpkgs?rev=04f574a1c0fde90b51bf68198e2297ca4e7cccf4" .#checks.x86_64-linux.vmtest
