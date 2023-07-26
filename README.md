@@ -62,6 +62,26 @@ NixOS systems configured with flakes and thus lacking channels usually have a br
 available on channels. The problem is that the channel URL can not be determined from
 the `nixpkgs` revision alone, as it also contains a build number.
 
+<details>
+  <summary>
+  <code>command-not-what?</code>
+  </summary>
+
+  Bash and other shells have a special handler that is invoked when an unknown command
+  is issued to the shell. For bash this is `command_not_found_handler`.
+
+  `command-not-found` is [a Perl script](https://github.com/NixOS/nixpkgs/blob/7c44c865ee736afba33ee8788b59e4a123800437/nixos/modules/programs/command-not-found/command-not-found.pl)
+  that is hooked into this handler when
+  the option [`programs.command-not-found.enable`](https://search.nixos.org/options?show=programs.command-not-found.enable)
+  is set to `true`. This perl script evaluates a pre-made database to suggest
+  packages that might be able to provide the command.
+
+  The pre-made database is generated as part of a channel, hence pure-flake-systems
+  do not have access to it. This flake extracts the database from the channels
+  and passes it to the `command-not-found` script to restore functionality that
+  was previously only available when using channels.
+</details>
+
 This is an attempt to provide a usable solution, motivated by <https://discourse.nixos.org/t/how-to-specify-programs-sqlite-for-command-not-found-from-flakes/22722/3>
 
 ## How?
