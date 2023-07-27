@@ -20,7 +20,7 @@
           packages.updater = pkgs.callPackage ./updater.nix {};
           apps.updater = { type = "app"; program = "${packages.updater}/bin/updater";};
           devShell = with pkgs; mkShell {
-            buildInputs = [ nim nimble-unwrapped ];
+            buildInputs = [ nim nimble-unwrapped nimlsp ];
           };
           checks.vmtest = import ./test.nix { inherit pkgs; flake = self; };  # nixpkgs must be set to a revision present in the JSON file
         })
