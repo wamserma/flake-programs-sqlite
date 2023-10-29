@@ -8776,5 +8776,11 @@
     "url": "/nixos/23.05-small/nixos-23.05.4588.187ac4d3f3a6/nixexprs.tar.xz",
     "nixexprs_hash": "118bd9f686c2a191bc340e455e2fb47900ed64d704409250b00cba7e40ba1043",
     "programs_sqlite_hash": "dd1c578c4705cdb66c31899b42ef134a92f9b693b492afd7ce217a8324b61799"
+  },
+  "1a3c95e3b23b3cdb26750621c08cc2f1560cb883": {
+    "name": "nixos-23.05.4584.1a3c95e3b23b",
+    "url": "/nixos/23.05/nixos-23.05.4584.1a3c95e3b23b/nixexprs.tar.xz",
+    "nixexprs_hash": "3c8105ec28530acb3dcff9fea6b8dc811b60495257f939182180258ce3779382",
+    "programs_sqlite_hash": "f6cf12fe569cbf476b999a8de19d0232f05ed119ab8001dd621e54950eea45bf"
   }
 }
