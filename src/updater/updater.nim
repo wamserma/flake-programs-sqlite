@@ -1,7 +1,7 @@
 # Copyright 2022 Markus S. Wamser
 # SPDX: MIT
 
-import std/[json, os, parseopt, re, sequtils, strformat, strutils, tempfiles, times, xmltree]
+import std/[json, logging, options, os, parseopt, re, sequtils, strformat, strutils, tempfiles, times, xmltree]
 
 import osproc, streams
 
@@ -26,6 +26,8 @@ type
     nixexprs_hash*: string # SHA256 of nixexprs.tar.xz as given on webpage
     hash* : string # SHA256 of programs.sqlite
 
+var
+  logger = newConsoleLogger()
 
 proc getChannels*(now: DateTime): seq[string] =
   # get the current and previous release plus unstable
@@ -68,10 +70,15 @@ proc extractNixexpr(xml: seq[XmlNode]) : array[2, string] =
     hash = nixexprsRow.select("tt")[0].stripTags()
   return [url, hash]
 
-proc fetchFile(channelUrl: string): string =
+proc fetchFile(channelUrl: string): Option[string] =
   var
     client = newHttpClient()
-  return client.getContent(channelUrl)
+  try:
+    return some(client.getContent(channelUrl))
+  except HttpRequestError as hce:
+    logger.log(lvlWarn, "Unable to fetch " & channelUrl & " (" & hce.msg & ")")
+  finally:
+    client.close()
 
 proc getMetadata*(htmlRaw: string): SqliteInfo =
   # scrape the data from the website and build an SqliteInfo object
@@ -101,13 +108,15 @@ proc extractProgramsSqliteHash(tarball: string): string =
 
   return hash
 
-proc getHashfromNixexprs(info: SqliteInfo): SqliteInfo =
+proc getHashfromNixexprs(info: SqliteInfo): Option[SqliteInfo] =
   let nixexprs = fetchFile(releaseBaseUrl & info.url)
+  if nixexprs.isNone:
+    return none(SqliteInfo)
   var updatedInfo = info
   if printDebugInfo: echo "Fetching " & releaseBaseUrl & info.url
-  updatedInfo.hash = extractProgramsSqliteHash(nixexprs)
+  updatedInfo.hash = extractProgramsSqliteHash(nixexprs.get())
   if printDebugInfo: echo "\\-> hash of programs.sqlite:" & updatedInfo.hash
-  return updatedInfo
+  return some(updatedInfo)
 
 proc writeHelp() =
     echo "Run as: updater --dir:path-to-json\n or as: updater --dir:path-to-json --channel:channel-revision"
@@ -148,7 +157,7 @@ when isMainModule:
     requestedChannels.add(getChannels(now().utc))
 
   let
-    channels = requestedChannels.mapIt(fetchFile(it)).mapIt(getMetadata(it))
+    channels = requestedChannels.mapIt(fetchFile(it)).filterIt(it.isSome).mapIt(getMetadata(it.get()))
     sourcesJson = parseFile(jsonPath & jsonFile)
 
   var
@@ -160,7 +169,7 @@ when isMainModule:
       queuedInfos.add(c)
       queuedRevs.add(c.rev)
 
-  let newInfos = queuedInfos.mapIt(getHashfromNixexprs(it)).filterIt(len(it.hash) == 64 and match(it.hash, re"^[A-Fa-f\d]{64}$"))
+  let newInfos = queuedInfos.mapIt(getHashfromNixexprs(it)).filterIt(it.isSome).mapIt(it.get()).filterIt(len(it.hash) == 64 and match(it.hash, re"^[A-Fa-f\d]{64}$"))
   for c in newInfos:
     sourcesJson[c.rev] = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
 
