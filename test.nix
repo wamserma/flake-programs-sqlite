@@ -6,7 +6,13 @@ let
 
   # NixOS module shared between server and client
   sharedModule = {
-    virtualisation.graphics = false;
+    virtualisation = {
+      graphics = false;
+      # jnsgruk suggests these limits
+      cores = 2;
+      memorySize = 5120;
+      diskSize = 10240;
+    };
     programs.command-not-found.enable = true;
     environment.systemPackages = [ pkgs.gnugrep pkgs.coreutils ];
   };
