@@ -32,6 +32,7 @@ jobs:
     - name: Smoke test
       run: |
            echo {} > ${{ runner.temp }}/sources.json
+           echo {} > ${{ runner.temp }}/latest.json
            nix run .#updater -- --dir:${{ runner.temp }} --channel:https://releases.nixos.org/nixos/20.03/nixos-20.03.2400.ff1b66eaea4
            cat ${{ runner.temp }}/sources.json
            [ `nix eval --impure nixpkgs#lib.importJSON --apply "x : (x ${{ runner.temp }}/sources.json).ff1b66eaea4399d297abda7419a330239842d715.programs_sqlite_hash"` = '"6097c544f012fc21f8cff9a6305ebab335d148e6385d7288a612e10c3cc82df0"' ]
