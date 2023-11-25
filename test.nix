@@ -20,7 +20,15 @@ let
   programs-sqlite-db = flake.packages.${system}.programs-sqlite;
   rev = flake.inputs.nixpkgs.rev;
 
-in pkgs.nixosTest {
+  programs-sqlite-db-for-fallback-test = pkgs.callPackage ./programs-sqlite.nix {
+    rev = "0000000000000000000000000000000000000000";
+  };
+
+in
+  # for the fallback test, we need a rev not in sources.json
+  assert (false == (pkgs.lib.importJSON ./sources.json) ? revForFallbackTest);
+
+  pkgs.nixosTest {
   name = "packages-sqlite-test";
   nodes = {
     directConfig = { config, pkgs, ... }: {
@@ -43,15 +51,26 @@ in pkgs.nixosTest {
         };
       };
     };
+
+    directConfigFallback = { config, pkgs, ... }: {
+      imports = [ sharedModule ];
+      users = {
+        mutableUsers = false;
+        users = {
+          root.password = "";
+        };
+      };
+      programs.command-not-found.dbPath = programs-sqlite-db-for-fallback-test;
+    };
   };
 
   testScript = ''
     import json;
 
-    with open("${flake.outPath}/sources.json") as f:
-      hashes = json.load(f)
+    def check(machine, expected_rev, db):
+        with open(f"${flake.outPath}/{db}", "r") as f:
+            hashes = json.load(f)
 
-    def check(machine):
         machine.start()
         machine.wait_for_unit("multi-user.target")
 
@@ -67,11 +86,12 @@ in pkgs.nixosTest {
           cnfsrc = machine.succeed("readlink $(which command-not-found)").strip()
           cnfdb = machine.succeed("grep -m 1 dbPath '" + cnfsrc + "' | cut -d '" + '"' + "' -f 2").strip()
           cnfdbhash = machine.succeed("sha256sum " + cnfdb + " | cut -d ' ' -f 1").strip()
-          assert hashes.get("${rev}").get("programs_sqlite_hash") == cnfdbhash, "incorrect programs.sqlite is used"
+          assert hashes.get(expected_rev).get("programs_sqlite_hash") == cnfdbhash, "incorrect programs.sqlite is used"
 
         machine.shutdown()
 
-    check(directConfig)
-    check(moduleConfig)
+    check(directConfig, "${rev}", "sources.json")
+    check(moduleConfig, "${rev}", "sources.json")
+    check(directConfigFallback, "${pkgs.lib.trivial.release}", "latest.json")
   '';
 }

@@ -1,6 +1,6 @@
 { lib, fetchurl, pkgs, rev }:
 let
-  meta = (lib.importJSON ./sources.json)."${rev}";
+  meta = (lib.importJSON ./sources.json)."${rev}" or (lib.importJSON ./latest.json).${lib.trivial.release};
 in
 pkgs.stdenvNoCC.mkDerivation {
   pname = "programs-sqlite";
