@@ -12,6 +12,7 @@ const
   channelBaseUrl = "https://channels.nixos.org/nixos-"
   releaseBaseUrl = "https://releases.nixos.org"
   jsonFile = "sources.json"
+  jsonFileLatest = "latest.json"
   systemXZ = "xz"
   systemTar = "tar"
   systemSha256 = "sha256sum"
@@ -159,6 +160,7 @@ when isMainModule:
   let
     channels = requestedChannels.mapIt(fetchFile(it)).filterIt(it.isSome).mapIt(getMetadata(it.get()))
     sourcesJson = parseFile(jsonPath & jsonFile)
+    sourcesLatestJson = parseFile(jsonPath & jsonFileLatest)
 
   var
     queuedInfos: seq[SqliteInfo] = @[]
@@ -172,5 +174,8 @@ when isMainModule:
   let newInfos = queuedInfos.mapIt(getHashfromNixexprs(it)).filterIt(it.isSome).mapIt(it.get()).filterIt(len(it.hash) == 64 and match(it.hash, re"^[A-Fa-f\d]{64}$"))
   for c in newInfos:
     sourcesJson[c.rev] = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
+    let release = c.name[6..10] # extract release number from "nixos-YY.mmSUFFIX"
+    sourcesLatestJson[release] = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
 
   writeFile(jsonPath & jsonFile, pretty(sourcesJson))
+  writeFile(jsonPath & jsonFileLatest, pretty(sourcesLatestJson))
