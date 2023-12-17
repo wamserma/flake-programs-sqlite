@@ -4,7 +4,7 @@ let
 in
 pkgs.stdenvNoCC.mkDerivation {
   pname = "programs-sqlite";
-  version = rev;
+  version = meta.name;
 
   src = fetchurl {
     url = "https://releases.nixos.org${meta.url}";
