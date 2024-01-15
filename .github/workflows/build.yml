@@ -9,12 +9,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Install Nix
-      uses: cachix/install-nix-action@v24
+      uses: cachix/install-nix-action@v25
       with:
         nix_path: nixpkgs=channel:nixos-unstable
         extra_nix_config: "system-features = nixos-test benchmark big-parallel kvm"
     - name: Cache on Cachix
-      uses: cachix/cachix-action@v13
+      uses: cachix/cachix-action@v14
       with:
         name: flake-programs-sqlite
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
