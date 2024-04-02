@@ -18,9 +18,9 @@
     "programs_sqlite_hash": "e6f48b8e44a12663831c869a3edd2b9370e0d8e592ef9b4027fd44cad837c9af"
   },
   "23.11": {
-    "name": "nixos-23.11.5789.5cffe359b248",
-    "url": "/nixos/23.11-small/nixos-23.11.5789.5cffe359b248/nixexprs.tar.xz",
-    "nixexprs_hash": "6de964e653b3928e361768b715391fae1e58d23b6f7b8cd00df2c78f0cb4089c",
-    "programs_sqlite_hash": "96b203c433e9b7b2f70db4069c682581a26695aa5e7a9dc576482b8b22f39103"
+    "name": "nixos-23.11.5794.f729653271b1",
+    "url": "/nixos/23.11-small/nixos-23.11.5794.f729653271b1/nixexprs.tar.xz",
+    "nixexprs_hash": "ac54616c6422f6abd2caf39fcfe25fa2495e0b20b0f4abd9b07128aa59953573",
+    "programs_sqlite_hash": "3163b6a540bfa3d0d6de050c7ea9e11cd527ab90ec73f43c5a9e7566f91b50f5"
   }
 }
