@@ -24,9 +24,9 @@
     "programs_sqlite_hash": "989ff2e12a4fbe16cbda4fb45f6f2bd38f31df38c3b2836cfaa1af9dc95549c8"
   },
   "24.11": {
-    "name": "nixos-24.11pre647193.9f4128e00b0a",
-    "url": "/nixos/unstable/nixos-24.11pre647193.9f4128e00b0a/nixexprs.tar.xz",
-    "nixexprs_hash": "740cc3ee29b25a6ca9280f70f57f8a1f262cabfe12deb2cc7ff77a081d5a51ae",
-    "programs_sqlite_hash": "13c2600f45159fc6a988a4e5b1843514ac7cda99d70808013910a286e021b35c"
+    "name": "nixos-24.11pre647618.d586b644539e",
+    "url": "/nixos/unstable-small/nixos-24.11pre647618.d586b644539e/nixexprs.tar.xz",
+    "nixexprs_hash": "fdf2fb020ee986f3d5b45408270f84f3abe54591bd3982c0ad21f844a3e90561",
+    "programs_sqlite_hash": "e9521ae0488079b352e1cdfa06214465f93094aefb9866fb8ae01374281a244b"
   }
 }
