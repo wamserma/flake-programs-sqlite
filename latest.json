@@ -1,9 +1,9 @@
 {
   "24.05": {
-    "name": "nixos-24.05.4090.224042e9a303",
-    "url": "/nixos/24.05-small/nixos-24.05.4090.224042e9a303/nixexprs.tar.xz",
-    "nixexprs_hash": "653a27d19766acd11f8cb2933f03dc5455d856be2254b31c33d9b9f5a31bd841",
-    "programs_sqlite_hash": "d38dea771b678533f4acaad97aa0d21e25d144f7ac86ac6e1cc6bed2d621be67"
+    "name": "nixos-24.05.4098.e088f57f278e",
+    "url": "/nixos/24.05-small/nixos-24.05.4098.e088f57f278e/nixexprs.tar.xz",
+    "nixexprs_hash": "f01d95790b180b5e47e090c494ca6e1733ac30cf1c875cf815d154c6d8371109",
+    "programs_sqlite_hash": "0d34c21421b19fc749a44a75501ff9ded00493c400365eb8175fd62a07657031"
   },
   "22.11": {
     "name": "nixos-22.11.4773.ea4c80b39be4",
