@@ -3,10 +3,10 @@ with lib;
 let cfg = config.programs-sqlite;
 in {
   options.programs-sqlite = {
-    enable = mkEnableOption (lib.mdDoc "fetching a `programs.sqlite` for `command-not-found`") //
+    enable = mkEnableOption "fetching a `programs.sqlite` for `command-not-found`" //
     {
       default = true;
-      description = lib.mdDoc ''
+      description = ''
         fetch a `programs.sqlite` file matching the current nixpks revision and use it for the
         `command-not-found` hook.
       '';
