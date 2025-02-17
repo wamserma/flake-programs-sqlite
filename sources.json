@@ -20416,5 +20416,11 @@
     "url": "/nixos/unstable-small/nixos-25.05beta754461.d74a2335ac9c/nixexprs.tar.xz",
     "nixexprs_hash": "4418c614c098cd5cacdb2d299df7a110573a498c78b74705aed7e784609e2b5a",
     "programs_sqlite_hash": "69057b8e7efe64366bb82ef9d639c7bbce995d7defc14242bf23a25ab504c770"
+  },
+  "1ead14e49dfa47e91e68df64ef3dbf036809c742": {
+    "name": "nixos-25.05beta754733.1ead14e49dfa",
+    "url": "/nixos/unstable-small/nixos-25.05beta754733.1ead14e49dfa/nixexprs.tar.xz",
+    "nixexprs_hash": "4c47aa45a51490dd68c0ef5ff3f21ea495347402661f1e78772d707962c1d492",
+    "programs_sqlite_hash": "9f65c0f8b07530a99aabc30297579aab9802a1731ff568f9b78a6a115e396979"
   }
 }
