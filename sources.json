@@ -22012,5 +22012,11 @@
     "url": "/nixos/unstable-small/nixos-25.05pre792020.434083485e8d/nixexprs.tar.xz",
     "nixexprs_hash": "98969fa02d830d0af5e83fd094dfdf0a29828c621f6668a1f84324809d10834f",
     "programs_sqlite_hash": "57c451d7dc7d1052db00bd314be6c0359438dd2ded1b9ff55e935aaaab3274d6"
+  },
+  "b000159bba69b0106a42f65e52dbf27f77aca9d3": {
+    "name": "nixos-24.11.717534.b000159bba69",
+    "url": "/nixos/24.11/nixos-24.11.717534.b000159bba69/nixexprs.tar.xz",
+    "nixexprs_hash": "c35f8f0a2bdaec5851a87210a1552a3b2b014bed92ed1bc1524e884e0c14c298",
+    "programs_sqlite_hash": "84b8d26bf93b594b9203c3be5e59ccb5fc2379d46244c4723c1cd82a4e5a803c"
   }
 }
