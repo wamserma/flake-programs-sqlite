@@ -8,6 +8,10 @@
     let
       # use tools from given pkgs to extract the db from the download
       getDB = pkgs: pkgs.callPackage ./programs-sqlite.nix { inherit (nixpkgs) rev; };
+
+      # shared NixOS & Home Manager module that extracts the db from its own `pkgs` instance
+      # NB: this only works because the `command-not-found` options match exactly between NixOS & Home Manager
+      sharedModule = pass@{ pkgs, ... }: (import ./module.nix { programs-sqlite = (getDB pkgs); }) pass;
     in
 
     # provide db-package for all archs, but scaper/test only for most common
@@ -29,8 +33,9 @@
         })
     ) //
 
-    # NixOS module
+    # NixOS & Home Manager modules
     {
-      nixosModules.programs-sqlite = pass@{ pkgs, ... }: (import ./module.nix { programs-sqlite = (getDB pkgs); }) pass;
+      nixosModules.programs-sqlite = sharedModule;
+      homeModules.programs-sqlite = sharedModule;
     };
 }
