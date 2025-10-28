@@ -41,6 +41,12 @@ Usage with a minimal system flake:
 
 The module's functionality is enabled as soon as the module is imported.
 
+### Home Manager module
+
+A Home Manager module is also provided in the Flake output `homeModules.programs-sqlite`.
+
+Like the NixOS module, its functionality is enabled as soon as it's imported.
+
 ### alternative: without using a module
 
 Add `flake-programs-sqlite` to the arguments of the flake's `outputs` function.
