@@ -7,7 +7,7 @@ in {
     {
       default = true;
       description = ''
-        fetch a `programs.sqlite` file matching the current nixpks revision and use it for the
+        fetch a `programs.sqlite` file matching the current nixpkgs revision and use it for the
         `command-not-found` hook.
       '';
     };
