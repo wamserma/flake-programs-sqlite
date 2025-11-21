@@ -30,10 +30,10 @@
     "programs_sqlite_hash": "da595f548ba0fbaadbfa32a0b0ae1873120d3e3ea7b74f6ed53774ce99ee8c70"
   },
   "25.05": {
-    "name": "nixos-25.05.812971.ac0e5aa8a287",
-    "url": "/nixos/25.05-small/nixos-25.05.812971.ac0e5aa8a287/nixexprs.tar.xz",
-    "nixexprs_hash": "ea0738d16cb4acff6ec552f5e97020df260dd80bf2758b9e752f630d2950ee0f",
-    "programs_sqlite_hash": "a9b53aa87b81906896041e801683d167319a5f83c89d44a55c5835ce187b77d0"
+    "name": "nixos-25.05.812985.8f246d914f13",
+    "url": "/nixos/25.05-small/nixos-25.05.812985.8f246d914f13/nixexprs.tar.xz",
+    "nixexprs_hash": "ce796d528ad9fe9a02d1bdebdf6b647bcb7ef01b61f46004aca73a738439b520",
+    "programs_sqlite_hash": "6f405aed6eb1c9b249410379dc8c0491ab261bc20e58f1f0fc6d0d0c0b552ee7"
   },
   "25.11": {
     "name": "nixos-25.11pre899566.baa40a5be0cd",
