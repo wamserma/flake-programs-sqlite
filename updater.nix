@@ -38,4 +38,5 @@ pkgs.buildNimPackage {
   postFixup = ''
     remove-references-to -t ${pkgs.nim-unwrapped} $out/bin/updater
   '';
+  meta.mainProgram = "updater";
 }
