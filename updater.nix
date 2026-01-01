@@ -1,4 +1,4 @@
-{ lib, pkgs, nimPackages, fetchurl, fetchFromGitHub, busybox, gnutar, xz }:
+{ lib, pkgs, fetchFromGitHub, busybox, gnutar, xz }:
 
 let
   q = fetchFromGitHub {
@@ -8,17 +8,16 @@ let
     sha256 = "sha256-juYoPW1pIizSNeEf203gs/3zm64iHxzV41fKFeSuqaY=";
   };
 in
-nimPackages.buildNimPackage rec {
+pkgs.buildNimPackage {
   pname = "updater";
   version = "0.3.0";
 
-  nimBinOnly = true;
   nimRelease = true;
 
-  nimDefines = [ "ssl" ];
+  nimDefines = [ "ssl" "useOpenssl3" ];
 
   src = ./src;
-  # set relative paths for dependencies, so they can be discovered in a nix bundle
+  # set store-relative paths for dependencies, so they can be discovered in a nix bundle
   postPatch = ''
     substituteInPlace updater/updater.nim --replace 'systemXZ = "xz"' 'systemXZ = "${xz}/bin/xz"'
     substituteInPlace updater/updater.nim --replace 'systemTar = "tar"' 'systemTar = "${gnutar}/bin/tar"'
@@ -30,9 +29,9 @@ nimPackages.buildNimPackage rec {
   checkPhase = ''testament all'';
 
   nativeBuildInputs = [ pkgs.removeReferencesTo ];
-  buildInputs = (with nimPackages; [
-    q
-  ]) ++
+  buildInputs = [
+    q pkgs.openssl
+  ] ++
   [ pkgs.nim-unwrapped ];  # needs to be declared als buildInput, so the path is known for the postFixup
 
   propagatedBuildInputs = [ busybox gnutar xz ];

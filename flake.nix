@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
     utils.url = "github:numtide/flake-utils";
   };
 
@@ -24,7 +24,7 @@
           packages.updater = pkgs.callPackage ./updater.nix {};
           apps.updater = { type = "app"; program = "${packages.updater}/bin/updater";};
           devShells.default = with pkgs; mkShell {
-            buildInputs = [ nim nimble-unwrapped nimlsp ];
+            buildInputs = [ nim nimble nimlsp pinact ];
           };
           checks.vmtest = import ./test.nix { inherit pkgs; flake = self; };  # nixpkgs must be set to a revision present in the JSON file
         })
