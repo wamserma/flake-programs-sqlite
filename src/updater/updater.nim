@@ -123,7 +123,7 @@ proc writeHelp() =
     echo "Run as: updater --dir:path-to-json\n or as: updater --dir:path-to-json --channel:channel-revision"
     quit(QuitSuccess)
 proc writeVersion() =
-    echo "updater, v0.2.1"
+    echo "updater, v0.3.0"
     quit(QuitSuccess)
 
 when isMainModule:

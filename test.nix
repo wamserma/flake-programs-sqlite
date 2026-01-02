@@ -15,6 +15,14 @@ let
     };
     programs.command-not-found.enable = true;
     environment.systemPackages = [ pkgs.gnugrep pkgs.coreutils ];
+    users = {
+      mutableUsers = false;
+      users.root = {
+        password = "";
+        initialHashedPassword = pkgs.lib.mkForce null;
+        hashedPasswordFile = pkgs.lib.mkForce null;
+      };
+    };
   };
 
   programs-sqlite-db = flake.packages.${system}.programs-sqlite;
@@ -28,38 +36,20 @@ in
   # for the fallback test, we need a rev not in sources.json
   assert (false == (pkgs.lib.importJSON ./sources.json) ? revForFallbackTest);
 
-  pkgs.nixosTest {
+  pkgs.testers.nixosTest {
   name = "packages-sqlite-test";
   nodes = {
     directConfig = { config, pkgs, ... }: {
       imports = [ sharedModule ];
-      users = {
-        mutableUsers = false;
-        users = {
-          root.password = "";
-        };
-      };
       programs.command-not-found.dbPath = programs-sqlite-db;
     };
 
     moduleConfig = { config, pkgs, ... }: {
       imports = [ sharedModule flake.nixosModules.programs-sqlite ];
-      users = {
-        mutableUsers = false;
-        users = {
-          root.password = "";
-        };
-      };
     };
 
     directConfigFallback = { config, pkgs, ... }: {
       imports = [ sharedModule ];
-      users = {
-        mutableUsers = false;
-        users = {
-          root.password = "";
-        };
-      };
       programs.command-not-found.dbPath = programs-sqlite-db-for-fallback-test;
     };
   };
@@ -71,6 +61,10 @@ in
         with open(f"${flake.outPath}/{db}", "r") as f:
             hashes = json.load(f)
 
+        with subtest("check test"):
+          errmsg = f"expected rev {expected_rev} not found in {db}"
+          assert hashes.get(expected_rev) is not None, errmsg
+  
         machine.start()
         machine.wait_for_unit("multi-user.target")
 
