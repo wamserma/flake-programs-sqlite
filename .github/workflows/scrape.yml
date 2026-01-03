@@ -7,7 +7,7 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -25,11 +25,19 @@ jobs:
           path: updater.bundle
           key: ${{ runner.os }}-bundle-${{ hashFiles('**/flake.lock') }}-${{ hashFiles('**/*.nix') }}-${{ hashFiles('**/*.nim*') }}
 
+      - name: enable userns so the bundle can use unshare()
+        run: |
+          sudo sysctl -w kernel.unprivileged_userns_clone=1
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_unconfined=0
+
       - name: update JSON
         run: ./updater.bundle -d:$PWD
 
       - name: create commit
-        run: git commit -a -m "update sources.json" || true
+        run: |
+          rm ./updater.bundle
+          git commit -a -m "update sources.json" || true
 
       - name: Push commit with updated inputs
         run: |
