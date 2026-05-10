@@ -9,9 +9,18 @@ jobs:
   update:
     runs-on: ubuntu-24.04
     steps:
-      - name: Check out repository
+      - name: Check out repository (main)
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          path: main
+          ref: main
+          persist-credentials: true  # required for pushing
+
+      - name: Check out repository (archive)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: archive
+          ref: archive
           persist-credentials: true  # required for pushing
 
       - name: Configure Git
@@ -32,14 +41,16 @@ jobs:
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_unconfined=0
 
       - name: update JSON
-        run: ./updater.bundle -d:$PWD
+        run: |
+          ./updater.bundle -d:$PWD/archive && cp archive/*.json main/*.json
 
-      - name: create commit
+      - name: create commits
         run: |
           rm ./updater.bundle
-          git commit -a -m "update sources.json" || true
+          git -C archive commit -a -m "update sources.json" || true
+          git -C main commit -a -m "update sources.json" || true
 
-      - name: Push commit with updated inputs
+      - name: Push commits with updated inputs
         run: |
-          git pull --rebase --autostash
-          git push
+          git -C archive pull --rebase --autostash && git -C archive push
+          git -C main pull --rebase --autostash && git -C main push
