@@ -25,10 +25,10 @@ jobs:
 
       - name: Configure Git
         run: |
-          git -c archive config user.name github-actions
-          git -c archive config user.email github-actions@github.com
-          git -c main config user.name github-actions
-          git -c main config user.email github-actions@github.com
+          git -C archive config user.name github-actions
+          git -C archive config user.email github-actions@github.com
+          git -C main config user.name github-actions
+          git -C main config user.email github-actions@github.com
 
       - name: fetch from cache
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
