@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: updater.bundle
-          key: ${{ runner.os }}-bundle-${{ hashFiles('**/flake.lock') }}-${{ hashFiles('**/*.nix') }}-${{ hashFiles('**/*.nim*') }}
+          key: ${{ runner.os }}-bundle-${{ hashFiles('main/**/flake.lock') }}-${{ hashFiles('main/**/*.nix') }}-${{ hashFiles('main/**/*.nim*') }}
 
       - name: enable userns so the bundle can use unshare()
         run: |
