@@ -44,7 +44,7 @@ jobs:
 
       - name: update JSON
         run: |
-          ./updater.bundle -d:$PWD/archive && cp archive/*.json main/*.json
+          ./updater.bundle -d:$PWD/archive && cp archive/*.json main/.
 
       - name: create commits
         run: |
