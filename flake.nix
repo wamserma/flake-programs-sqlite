@@ -1,11 +1,29 @@
 {
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
-    utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils }:
+  outputs = { self, nixpkgs }:
     let
+      inherit (nixpkgs) lib;
+
+      systems = builtins.attrNames nixpkgs.legacyPackages;
+      commonSystems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
+      updaterSystems = [
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+
+      forAllSystems = lib.genAttrs systems;
+      forCommonSystems = lib.genAttrs commonSystems;
+      forUpdaterSystems = lib.genAttrs updaterSystems;
+      pkgsFor = system: nixpkgs.legacyPackages.${system};
+
       # use tools from given pkgs to extract the db from the download
       getDB = pkgs: pkgs.callPackage ./programs-sqlite.nix { inherit (nixpkgs) rev; };
 
@@ -14,27 +32,45 @@
       sharedModule = pass@{ pkgs, ... }: (import ./module.nix { programs-sqlite = (getDB pkgs); }) pass;
     in
 
-    # provide db-package for all archs, but scaper/test only for most common
-    (utils.lib.eachSystem utils.lib.allSystems (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      nixpkgs.lib.recursiveUpdate
-        (nixpkgs.lib.optionalAttrs (builtins.elem system utils.lib.defaultSystems) rec {
-          packages.updater = pkgs.callPackage ./updater.nix {};
-          apps.updater = { type = "app"; program = "${packages.updater}/bin/updater";};
-          devShells.default = with pkgs; mkShell {
+    {
+      # provide db-package for all archs, but scraper/test only where supported
+      packages = forAllSystems (system:
+        let
+          pkgs = pkgsFor system;
+        in
+        {
+          programs-sqlite = getDB pkgs;
+        } // lib.optionalAttrs (builtins.elem system updaterSystems) {
+          updater = pkgs.callPackage ./updater.nix {};
+        });
+
+      apps = forUpdaterSystems (system: {
+        updater = {
+          type = "app";
+          program = "${self.packages.${system}.updater}/bin/updater";
+        };
+      });
+
+      devShells = forCommonSystems (system:
+        let
+          pkgs = pkgsFor system;
+        in
+        {
+          default = with pkgs; mkShell {
             buildInputs = [ nim nimble nimlsp pinact ];
           };
-          checks.vmtest = import ./test.nix { inherit pkgs; flake = self; };  # nixpkgs must be set to a revision present in the JSON file
-        })
-        {
-          packages.programs-sqlite = getDB pkgs;
-        })
-    ) //
+        });
 
-    # NixOS & Home Manager modules
-    {
+      checks = forUpdaterSystems (system:
+        let
+          pkgs = pkgsFor system;
+        in
+        {
+          # nixpkgs must be set to a revision present in the JSON file
+          vmtest = import ./test.nix { inherit pkgs; flake = self; };
+        });
+
+      # NixOS & Home Manager modules
       nixosModules.programs-sqlite = sharedModule;
       homeModules.programs-sqlite = sharedModule;
     };
