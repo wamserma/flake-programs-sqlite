@@ -34048,5 +34048,17 @@
     "url": "/nixos/26.05/nixos-26.05.9843.b67c7a60c373/nixexprs.tar.xz",
     "nixexprs_hash": "dfe10d2c3ce904029e9ae72ebcee81e67e9965e2807b22409956546949619921",
     "programs_sqlite_hash": "d4a2a62107455f627f6936f35db2993308ae5227324bb27cc4d6a13cd97346e3"
+  },
+  "41461f1b1c2490802fd85c0419f2f1f82a0194cd": {
+    "name": "nixos-26.11pre1074814.41461f1b1c24",
+    "url": "/nixos/unstable-small/nixos-26.11pre1074814.41461f1b1c24/nixexprs.tar.xz",
+    "nixexprs_hash": "b8a10b9e1f396105c95910df5d48fa5316d109bc6392f29d67d0cb2d21b256f7",
+    "programs_sqlite_hash": "62a27dafbbe7906b990e36744c1d94628efea4f4dad8c1a7b4b4f330bded1e0b"
+  },
+  "db6524a4bb879e39d64dcaf01156a118313e1692": {
+    "name": "nixos-26.05.9915.db6524a4bb87",
+    "url": "/nixos/26.05-small/nixos-26.05.9915.db6524a4bb87/nixexprs.tar.xz",
+    "nixexprs_hash": "faae9d5c6dd22d9ad6e25607ce546cf7c199f9ea59c503bdd08e4d85a385c095",
+    "programs_sqlite_hash": "8a2797dcfc2fbc54141e913dc97ecafb055f3b88d175d3d67b9bb284098f0e07"
   }
 }
