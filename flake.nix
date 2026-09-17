@@ -6,7 +6,8 @@
   outputs = { self, nixpkgs }:
     let
       # use tools from given pkgs to extract the db from the download
-      getDB = pkgs: pkgs.callPackage ./programs-sqlite.nix { inherit (nixpkgs) rev; };
+      # if nixpkgs already ships a programs.sqlite, do not download, but verify the hash
+      getDB = pkgs: pkgs.callPackage ./programs-sqlite.nix { nixpkgsRev = nixpkgs.rev; nixpkgsPath = nixpkgs.outPath; };
 
       # shared NixOS & Home Manager module that extracts the db from its own `pkgs` instance
       # NB: this only works because the `command-not-found` options match exactly between NixOS & Home Manager

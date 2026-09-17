@@ -40,5 +40,14 @@ jobs:
            cat ${{ runner.temp }}/sources.json
            [ `nix eval --impure nixpkgs#lib.importJSON --apply "x : (x ${{ runner.temp }}/sources.json).ff1b66eaea4399d297abda7419a330239842d715.programs_sqlite_hash"` = '"6097c544f012fc21f8cff9a6305ebab335d148e6385d7288a612e10c3cc82df0"' ]
 
+    - name: Tarball input quick test
+      run: |
+           RESNOTB=$(nix eval --json --override-input nixpkgs "github:NixOS/nixpkgs?rev=cad22e7d996aea55ecab064e84834289143e44a0" .#programs-sqlite.src)
+           [ "$RESNOTB" = '"/nix/store/lsplmmnvgjf3yh9xpr7s0g30x8h7zppw-nixexprs.tar.xz"' ]
+           RESTB=$(nix eval --json --override-input nixpkgs "https://releases.nixos.org/nixos/unstable/nixos-26.05pre919991.cad22e7d996a/nixexprs.tar.xz?lastModified=1767116409&rev=cad22e7d996aea55ecab064e84834289143e44a0" .#programs-sqlite.src)
+           [ "$RESTB" = '"/nix/store/bjgc3nmjz40w51x8gl0xvccspdzlr7ns-source"' ]
+
     - name: Integration test
-      run: nix build --override-input nixpkgs "github:NixOS/nixpkgs?rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
+      run: |
+           nix build --no-link --override-input nixpkgs "github:NixOS/nixpkgs?rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
+           nix build --no-link --override-input nixpkgs "https://releases.nixos.org/nixos/unstable/nixos-26.05pre919991.cad22e7d996a/nixexprs.tar.xz?lastModified=1767116409&rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
