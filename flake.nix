@@ -12,52 +12,37 @@
       # NB: this only works because the `command-not-found` options match exactly between NixOS & Home Manager
       sharedModule = pass@{ pkgs, ... }: (import ./module.nix { programs-sqlite = (getDB pkgs); }) pass;
 
+      # for readability and dry code
+      inherit (nixpkgs) lib;
+      pkgsFor = system: nixpkgs.legacyPackages.${system};
       linuxSystems = [ "aarch64-linux" "x86_64-linux" ];
-
-      # adopted from https://github.com/numtide/flake-utils/blob/11707dc2f618dd54ca8739b309ec4fc024de578b/lib.nix#L33
-      # which is also MIT licensed; can probably be further simplified
-      eachSystemOp = op: systems: f: builtins.foldl' (op f) { } systems;
-      eachSystem = eachSystemOp (
-        # Merge outputs for each system.
-        f: attrs: system:
-        let
-          ret = f system;
-        in
-        builtins.foldl' (
-          attrs: key:
-          attrs
-          // {
-            ${key} = (attrs.${key} or { }) // {
-              ${system} = ret.${key};
-            };
-          }
-        ) attrs (builtins.attrNames ret)
-      );
       
-    in
+      # provide db-package for all archs, but scraper/test/devshell only for common Linux
+      dbPackages = lib.genAttrs lib.systems.doubles.all (system: {
+        programs-sqlite = getDB (pkgsFor system);
+      });
 
-    # provide db-package for all archs, but scraper/test only for common Linux
-    (eachSystem nixpkgs.lib.systems.doubles.all (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      nixpkgs.lib.recursiveUpdate
-        (nixpkgs.lib.optionalAttrs (builtins.elem system linuxSystems) rec {
-          packages.updater = pkgs.callPackage ./updater.nix {};
-          apps.updater = { type = "app"; program = "${packages.updater}/bin/updater";};
-          devShells.default = with pkgs; mkShell {
+      updaterPackages = lib.genAttrs linuxSystems (system: {
+        updater = (pkgsFor system).callPackage ./updater.nix {};
+      });
+  in
+  {
+    packages = lib.recursiveUpdate dbPackages updaterPackages;
+    apps = lib.genAttrs linuxSystems (system: {
+      updater = { type = "app"; program = "${updaterPackages.${system}.updater}/bin/updater"; };
+    });
+    devShells = lib.genAttrs linuxSystems (system: {
+      default = with (pkgsFor system); mkShell {
             buildInputs = [ nim nimble nimlsp pinact ];
-          };
-          checks.vmtest = import ./test.nix { inherit pkgs; flake = self; };  # nixpkgs must be set to a revision present in the JSON file
-        })
-        {
-          packages.programs-sqlite = getDB pkgs;
-        })
-    ) //
+      };      
+    });
+    checks = lib.genAttrs linuxSystems (system: {
+      # nixpkgs must be set to a revision present in the JSON file for the test to succeed
+      vmtest = import ./test.nix { pkgs = pkgsFor system; flake = self; };
+    });
 
     # NixOS & Home Manager modules
-    {
-      nixosModules.programs-sqlite = sharedModule;
-      homeModules.programs-sqlite = sharedModule;
-    };
+    nixosModules.programs-sqlite = sharedModule;
+    homeModules.programs-sqlite = sharedModule;
+  };
 }
