@@ -29,7 +29,7 @@ let
   rev = flake.inputs.nixpkgs.rev;
 
   programs-sqlite-db-for-fallback-test = pkgs.callPackage ./programs-sqlite.nix {
-    rev = "0000000000000000000000000000000000000000";
+    nixpkgsRev = "0000000000000000000000000000000000000000";
   };
 
 in

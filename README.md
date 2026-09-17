@@ -2,6 +2,29 @@
 
 [![Update Channel Info](https://github.com/wamserma/flake-programs-sqlite/actions/workflows/scrape.yml/badge.svg?branch=main)](https://github.com/wamserma/flake-programs-sqlite/actions/workflows/scrape.yml)
 
+## Do I need this?
+
+Probably not. It is now (now is the year 2026) recommended to use lockable URLs instead of
+GitHub repos when setting a nixpkgs input for your flake.
+This avoids rate limiting, provides faster downloads via CDNs and brings `programs.sqlite`
+built in.
+
+If you still prefer to have your inputs pointed at a GitHub repo, this is for you. It will restore
+the command-hinting functionality known from non-flake systems:
+
+```
+[me@computer:/tmp]$ cowsay moo
+The program 'cowsay' is not in your PATH. It is provided by several packages.
+You can make it available in an ephemeral shell by typing one of the following:
+  nix-shell -p cowsay
+  nix-shell -p neo-cowsay
+```
+
+Note that [`command-not-found` might be disabled for repo-based inputs](https://github.com/NixOS/nixpkgs/commit/4241fb5eaeb33e8a673a547d1eb1bb2d3fc7d34f).
+
+This utility works in both cases and detects when you use a tarball as input, in which case the
+existing `programs.sqlite` will be reused instead of being downloaded and extracted (again).
+
 ## TL;DR
 
 (assuming a flake similar to <https://nixos.wiki/wiki/Flakes#Using_nix_flakes_with_NixOS>)
@@ -21,7 +44,8 @@ Usage with a minimal system flake:
 
 ```nix
 {
-  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-22.11;
+  inputs.nixpkgs.url = "https://nixos.org/channels/nixos-26.05/nixexprs.tar.zst"; # preferred style
+  # inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";  # old stlye or non-channel inputs
   inputs.flake-programs-sqlite.url = "github:wamserma/flake-programs-sqlite";
   inputs.flake-programs-sqlite.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -79,7 +103,7 @@ the `nixpkgs` revision alone, as it also contains a build number.
   `command-not-found` is [a Perl script](https://github.com/NixOS/nixpkgs/blob/7c44c865ee736afba33ee8788b59e4a123800437/nixos/modules/programs/command-not-found/command-not-found.pl)
   that is hooked into this handler when
   the option [`programs.command-not-found.enable`](https://search.nixos.org/options?show=programs.command-not-found.enable)
-  is set to `true`. This perl script evaluates a pre-made database to suggest
+  is set to `true`. This Perl script evaluates a pre-made database to suggest
   packages that might be able to provide the command.
 
   The pre-made database is generated as part of a channel, hence pure-flake-systems

@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out repository (main)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: main
           ref: main
           persist-credentials: true  # required for pushing
 
       - name: Check out repository (archive)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: archive
           ref: archive
@@ -31,7 +31,7 @@ jobs:
           git -C main config user.email github-actions@github.com
 
       - name: fetch from cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: updater.bundle
           key: ${{ runner.os }}-bundle-${{ hashFiles('main/**/flake.lock') }}-${{ hashFiles('main/**/*.nix') }}-${{ hashFiles('main/**/*.nim*') }}
