@@ -49,5 +49,8 @@ jobs:
 
     - name: Integration test
       run: |
-           nix build --no-link --override-input nixpkgs "github:NixOS/nixpkgs?rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
+           STOREFILE="/nix/store/ysczyz3gz8bl22j5m2x1p5sw87bqsy87-programs-sqlite-nixos-26.05pre919991.cad22e7d996a"
+           [ -f "$STOREFILE" ] && nix-store --delete $STOREFILE || nix-store --query --referrers $STOREFILE
            nix build --no-link --override-input nixpkgs "https://releases.nixos.org/nixos/unstable/nixos-26.05pre919991.cad22e7d996a/nixexprs.tar.xz?lastModified=1767116409&rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
+           [ -f "$STOREFILE" ] && nix-store --delete $STOREFILE || nix-store --query --referrers $STOREFILE
+           nix build --no-link --override-input nixpkgs "github:NixOS/nixpkgs?rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
