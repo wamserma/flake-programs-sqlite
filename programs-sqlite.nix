@@ -11,8 +11,12 @@ pkgs.stdenvNoCC.mkDerivation {
   pname = "programs-sqlite";
   version = meta.name;
   dontConfigure = true;
+  dontPatch = true;
+  dontUpdateAutotoolsGnuConfigScripts = true;
   dontBuild = true;
+  dontFixup = true;
   dontUnpack = useLocalDb;
+  preferLocalBuild = true;
 
   src = if useLocalDb then nixpkgsPath else
     fetchurl {
@@ -20,8 +24,10 @@ pkgs.stdenvNoCC.mkDerivation {
       sha256 = meta.nixexprs_hash;
     };
     
-  installPhase = ''
-    cp programs.sqlite $out
+  installPhase = if useLocalDb then ''
+      cp $src/programs.sqlite $out
+    '' else ''
+      cp programs.sqlite $out
     '';
   outputHashAlgo = "sha256";
   outputHashMode = "flat";
