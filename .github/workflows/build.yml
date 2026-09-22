@@ -54,3 +54,16 @@ jobs:
            nix build --no-link --override-input nixpkgs "https://releases.nixos.org/nixos/unstable/nixos-26.05pre919991.cad22e7d996a/nixexprs.tar.xz?lastModified=1767116409&rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
            [ -f "$STOREFILE" ] && nix-store --delete $STOREFILE || nix-store --query --referrers $STOREFILE
            nix build --no-link --override-input nixpkgs "github:NixOS/nixpkgs?rev=cad22e7d996aea55ecab064e84834289143e44a0" .#checks.x86_64-linux.vmtest
+
+    - name: E2E test with colliding revisions
+      run: |
+           echo {} > ${{ runner.temp }}/sources.json
+           echo {} > ${{ runner.temp }}/latest.json
+           nix run .#updater -- --dir:${{ runner.temp }} --channel:https://releases.nixos.org/nixos/26.05-small/nixos-26.05.10304.6d663c0533ff/nixexprs.tar.xz
+           cat ${{ runner.temp }}/sources.json
+           nix build --no-link --override-input nixpkgs "https://releases.nixos.org/nixos/26.05-small/nixos-26.05.10304.6d663c0533ff/nixexprs.tar.zst?rev=6d663c0533ff269008fb84e45930151e37c99db9" .#checks.x86_64-linux.vmtest
+           nix run .#updater -- --dir:${{ runner.temp }} --channel:https://releases.nixos.org/nixos/26.05/nixos-26.05.10304.6d663c0533ff/nixexprs.tar.xz
+           cat ${{ runner.temp }}/sources.json
+           nix build --no-link --override-input nixpkgs "https://releases.nixos.org/nixos/26.05-small/nixos-26.05.10304.6d663c0533ff/nixexprs.tar.zst?rev=6d663c0533ff269008fb84e45930151e37c99db9" .#checks.x86_64-linux.vmtest
+           nix build --no-link --override-input nixpkgs "https://releases.nixos.org/nixos/26.05/nixos-26.05.10304.6d663c0533ff/nixexprs.tar.zst?rev=6d663c0533ff269008fb84e45930151e37c99db9" .#checks.x86_64-linux.vmtest
+
