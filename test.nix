@@ -80,7 +80,12 @@ in
           cnfsrc = machine.succeed("readlink $(which command-not-found)").strip()
           cnfdb = machine.succeed("grep -m 1 dbPath '" + cnfsrc + "' | cut -d '" + '"' + "' -f 2").strip()
           cnfdbhash = machine.succeed("sha256sum " + cnfdb + " | cut -d ' ' -f 1").strip()
-          assert hashes.get(expected_rev).get("programs_sqlite_hash") == cnfdbhash, "incorrect programs.sqlite is used"
+          expected_data = hashes.get(expected_rev)
+          if isinstance(expected_data, list):
+              expected_hashes = [ d.get("programs_sqlite_hash") for d in expected_data ]
+          else:
+              expected_hashes = [ expected_data.get("programs_sqlite_hash") ]
+          assert cnfdbhash in expected_hashes, "incorrect programs.sqlite is used"
 
         machine.shutdown()
 

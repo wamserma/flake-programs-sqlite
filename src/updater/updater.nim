@@ -97,6 +97,21 @@ proc getMetadata*(htmlRaw: string): SqliteInfo =
   info.hash = "" # getting this is expensive, fill on demand later
   return info
 
+proc isNixexprInJsonList(hash: string, infos: JsonNode): bool =
+  # given a an entry or list of entries from the json,
+  # check whether one corresponding to
+  # the given nixexprs hash can be found
+  # this allows to distinguish between multiple channels built from
+  # the same git revision of nixpkgs
+  if (infos.kind == JObject):
+      if hash == infos["nixexprs_hash"].getStr():
+        return true
+  if (infos.kind == JArray):
+    for i in infos:
+      if hash == i["nixexprs_hash"].getStr():
+        return true
+  return false
+
 proc extractProgramsSqliteHash(tarball: string): string =
   let (cfile, path) = createTempFile("nixexpr_tgz_", "_end.tmp")
   cfile.write(tarball)
@@ -123,7 +138,7 @@ proc writeHelp() =
     echo "Run as: updater --dir:path-to-json\n or as: updater --dir:path-to-json --channel:channel-revision"
     quit(QuitSuccess)
 proc writeVersion() =
-    echo "updater, v0.3.0"
+    echo "updater, v0.4.0"
     quit(QuitSuccess)
 
 when isMainModule:
@@ -167,15 +182,25 @@ when isMainModule:
     queuedRevs: seq[string] = @[]
 
   for c in channels:
-    if sourcesJson{c.rev} == nil and c.rev notin queuedRevs:
+    # if there is an entry, it is a single dict or a list of dicts
+    if (sourcesJson{c.rev} == nil or
+        (not isNixexprInJsonList(c.nixexprs_hash,sourcesJson{c.rev}))) and
+        c.rev notin queuedRevs:
       queuedInfos.add(c)
       queuedRevs.add(c.rev)
 
   let newInfos = queuedInfos.mapIt(getHashfromNixexprs(it)).filterIt(it.isSome).mapIt(it.get()).filterIt(len(it.hash) == 64 and match(it.hash, re"^[A-Fa-f\d]{64}$"))
   for c in newInfos:
-    sourcesJson[c.rev] = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
+    let entry = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
+    if sourcesJson{c.rev} == nil:
+       sourcesJson[c.rev] = entry
+    elif sourcesJson[c.rev].kind == JObject:
+       var tmp = newJArray()
+       tmp.add(sourcesJson[c.rev])
+       sourcesJson[c.rev] = tmp
+       sourcesJson[c.rev].add(entry)
     let release = c.name[6..10] # extract release number from "nixos-YY.mmSUFFIX"
-    sourcesLatestJson[release] = %* {"name": c.name, "url": c.url, "nixexprs_hash": c.nixexprs_hash, "programs_sqlite_hash": c.hash}
+    sourcesLatestJson[release] = entry
 
   writeFile(jsonPath & jsonFile, pretty(sourcesJson))
   writeFile(jsonPath & jsonFileLatest, pretty(sourcesLatestJson))
