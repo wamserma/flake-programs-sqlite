@@ -35513,12 +35513,20 @@
     "nixexprs_hash": "fb74b1f55774b43f83e6ea4908e1aa80fd7badd12dc919ee1e45e697a7ea3b5b",
     "programs_sqlite_hash": "17e83d6b728bc4f7073cc11b911807758c54c67a7c2d67bc5bdf09da34f5fd2f"
   },
-  "9bb52223f4f6a0cc606fd0852d8784f896c137d5": {
-    "name": "nixos-26.05.13375.9bb52223f4f6",
-    "url": "/nixos/26.05-small/nixos-26.05.13375.9bb52223f4f6/nixexprs.tar.xz",
-    "nixexprs_hash": "fc36975b1a021f51d57e5ddc5d0a349ede8416e1addbf1f5ff85dd70a6f5e98d",
-    "programs_sqlite_hash": "6c34602f3d15d9e730ed1e282ce2f2b6934070eaebdb41676f32131c92fdc96a"
-  },
+  "9bb52223f4f6a0cc606fd0852d8784f896c137d5": [
+    {
+      "name": "nixos-26.05.13375.9bb52223f4f6",
+      "url": "/nixos/26.05-small/nixos-26.05.13375.9bb52223f4f6/nixexprs.tar.xz",
+      "nixexprs_hash": "fc36975b1a021f51d57e5ddc5d0a349ede8416e1addbf1f5ff85dd70a6f5e98d",
+      "programs_sqlite_hash": "6c34602f3d15d9e730ed1e282ce2f2b6934070eaebdb41676f32131c92fdc96a"
+    },
+    {
+      "name": "nixos-26.05.13375.9bb52223f4f6",
+      "url": "/nixos/26.05/nixos-26.05.13375.9bb52223f4f6/nixexprs.tar.xz",
+      "nixexprs_hash": "68a37ad9caf33b32268d5affb01aad414b173e149d0c0a2abafa5e80c26b3b97",
+      "programs_sqlite_hash": "4e8b81fc6e1cabdd5a9f43ea43cace18c96fea7576d3851ea291b3a12cb61b1f"
+    }
+  ],
   "b2b11c1ec65a208b0fa280ef015469ff9dd76643": {
     "name": "nixos-26.05.13385.b2b11c1ec65a",
     "url": "/nixos/26.05-small/nixos-26.05.13385.b2b11c1ec65a/nixexprs.tar.xz",
@@ -35530,5 +35538,11 @@
     "url": "/nixos/unstable-small/nixos-26.11pre1106666.577e5b3393ab/nixexprs.tar.xz",
     "nixexprs_hash": "8e6d137b1f2c3ae24c5f2b916900cca6dfd27e5495577c6f97af906106859dee",
     "programs_sqlite_hash": "581b3be01446f11c00bb586acb238daa2e6d2ba053ab3bb2dc9b21a83b6e2e86"
+  },
+  "64aec40e18595d342f25f120069f2cb63c3947b4": {
+    "name": "nixos-26.05.13399.64aec40e1859",
+    "url": "/nixos/26.05-small/nixos-26.05.13399.64aec40e1859/nixexprs.tar.xz",
+    "nixexprs_hash": "d0e0e97f90d23337fd08dbd8c52098da4ded1b00775ab66e921a070d97530bd1",
+    "programs_sqlite_hash": "37266a8e36d8493e64a43280babbbd6297adeb0cca48db06bd1a328c0858cdee"
   }
 }
