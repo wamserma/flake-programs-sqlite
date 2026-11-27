@@ -36258,5 +36258,35 @@
     "url": "/nixos/unstable-small/nixos-27.05pre1131214.5e50e88b70df/nixexprs.tar.xz",
     "nixexprs_hash": "fb104dc46c64d1d8d33b0d53804e5b43e9b375dc91d52db0eb2f25aab8913fc5",
     "programs_sqlite_hash": "01f6c443f41c8147ff4bae9a507a37d23352d315f24ae264b78cbdcfedc198f5"
+  },
+  "5b31ff946309736077f0c4ee23bb85d0a0a1c181": {
+    "name": "nixos-26.05.15197.5b31ff946309",
+    "url": "/nixos/26.05/nixos-26.05.15197.5b31ff946309/nixexprs.tar.xz",
+    "nixexprs_hash": "8540a2a112c48da34c7a0d48621f2522bce91ed1481953a3f4ecf13c43380f33",
+    "programs_sqlite_hash": "258c70e3c0ee35b9755a5d7135d7e1f1fa8374b787679368421f19636b7a136a"
+  },
+  "3068c73a96a6979ee8e72e7196577d0bd842d412": {
+    "name": "nixos-26.11beta285.3068c73a96a6",
+    "url": "/nixos/26.11/nixos-26.11beta285.3068c73a96a6/nixexprs.tar.xz",
+    "nixexprs_hash": "a8fbff5c233427acd28acc6efde9c32c463692f8ccf4ed6452baa3edcc256574",
+    "programs_sqlite_hash": "98ef2a967d073ad6319bdd0e7b55547c04d2e4bad8fd62842a51956b1638d303"
+  },
+  "7387b85bd88ea125935fc231d98dbeec84ca33da": {
+    "name": "nixos-27.05pre1131378.7387b85bd88e",
+    "url": "/nixos/unstable-small/nixos-27.05pre1131378.7387b85bd88e/nixexprs.tar.xz",
+    "nixexprs_hash": "ef72394ddaa369c96b5f7de97b492853fe9704cf13b742577a91861e205baed8",
+    "programs_sqlite_hash": "b2229d52061a8893c5f5291c0e64bbc148ecfc8772f189c8965c0fbf89dd73e6"
+  },
+  "4885e92892ec3da2044f0d9e97f54ad283fd609b": {
+    "name": "nixos-26.05.15368.4885e92892ec",
+    "url": "/nixos/26.05-small/nixos-26.05.15368.4885e92892ec/nixexprs.tar.xz",
+    "nixexprs_hash": "fdd229ef7e6f81df264bc21d9e1c85a39c0bcf3079e0f1832cebb5746fb440a8",
+    "programs_sqlite_hash": "4811d2cdf77f46e9aa834c9665dd29748cdf9cb2b12a0b096852f13667441d53"
+  },
+  "2289992d5d1e9aba2836f694017a31f7e0c26327": {
+    "name": "nixos-26.11beta289.2289992d5d1e",
+    "url": "/nixos/26.11-small/nixos-26.11beta289.2289992d5d1e/nixexprs.tar.xz",
+    "nixexprs_hash": "394d6d3522145d7380bdd1a10cc1742d67da9ccf416caf156e3ad2fe1376126f",
+    "programs_sqlite_hash": "979eb54389de209a346155921bcc0639772d785efbe0c3ea60ee735cd22e3350"
   }
 }

@@ -42,21 +42,21 @@
     "programs_sqlite_hash": "3c1dcc07294ef2a6d6b7d47d9d2f4e6768708d6086c1dbccad6df1a5f6b65e79"
   },
   "26.05": {
-    "name": "nixos-26.05.15306.af0c6570b56c",
-    "url": "/nixos/26.05-small/nixos-26.05.15306.af0c6570b56c/nixexprs.tar.xz",
-    "nixexprs_hash": "e02e02adcfda42fbe4fae7d5648d8f29ccfcf2920c8586da1f156cd976cd73d1",
-    "programs_sqlite_hash": "932712e98814061ee0049a9f0408f6a44008f7ee9dcf44b0bdf834874b6a6fb2"
+    "name": "nixos-26.05.15368.4885e92892ec",
+    "url": "/nixos/26.05-small/nixos-26.05.15368.4885e92892ec/nixexprs.tar.xz",
+    "nixexprs_hash": "fdd229ef7e6f81df264bc21d9e1c85a39c0bcf3079e0f1832cebb5746fb440a8",
+    "programs_sqlite_hash": "4811d2cdf77f46e9aa834c9665dd29748cdf9cb2b12a0b096852f13667441d53"
   },
   "26.11": {
-    "name": "nixos-26.11beta149.0f89d6d3232f",
-    "url": "/nixos/26.11-small/nixos-26.11beta149.0f89d6d3232f/nixexprs.tar.xz",
-    "nixexprs_hash": "4424eb2a968696b471120e9a5a1b717cb673a0959b3604ffe158acd5fd2b1dc4",
-    "programs_sqlite_hash": "250967a05de2ab1ffc0e79e069027f9d2d956258c7f1ccdee38d20e25ec468d4"
+    "name": "nixos-26.11beta289.2289992d5d1e",
+    "url": "/nixos/26.11-small/nixos-26.11beta289.2289992d5d1e/nixexprs.tar.xz",
+    "nixexprs_hash": "394d6d3522145d7380bdd1a10cc1742d67da9ccf416caf156e3ad2fe1376126f",
+    "programs_sqlite_hash": "979eb54389de209a346155921bcc0639772d785efbe0c3ea60ee735cd22e3350"
   },
   "27.05": {
-    "name": "nixos-27.05pre1131214.5e50e88b70df",
-    "url": "/nixos/unstable-small/nixos-27.05pre1131214.5e50e88b70df/nixexprs.tar.xz",
-    "nixexprs_hash": "fb104dc46c64d1d8d33b0d53804e5b43e9b375dc91d52db0eb2f25aab8913fc5",
-    "programs_sqlite_hash": "01f6c443f41c8147ff4bae9a507a37d23352d315f24ae264b78cbdcfedc198f5"
+    "name": "nixos-27.05pre1131378.7387b85bd88e",
+    "url": "/nixos/unstable-small/nixos-27.05pre1131378.7387b85bd88e/nixexprs.tar.xz",
+    "nixexprs_hash": "ef72394ddaa369c96b5f7de97b492853fe9704cf13b742577a91861e205baed8",
+    "programs_sqlite_hash": "b2229d52061a8893c5f5291c0e64bbc148ecfc8772f189c8965c0fbf89dd73e6"
   }
 }
