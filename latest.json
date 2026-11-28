@@ -42,21 +42,21 @@
     "programs_sqlite_hash": "3c1dcc07294ef2a6d6b7d47d9d2f4e6768708d6086c1dbccad6df1a5f6b65e79"
   },
   "26.05": {
-    "name": "nixos-26.05.15368.4885e92892ec",
-    "url": "/nixos/26.05-small/nixos-26.05.15368.4885e92892ec/nixexprs.tar.xz",
-    "nixexprs_hash": "fdd229ef7e6f81df264bc21d9e1c85a39c0bcf3079e0f1832cebb5746fb440a8",
-    "programs_sqlite_hash": "4811d2cdf77f46e9aa834c9665dd29748cdf9cb2b12a0b096852f13667441d53"
+    "name": "nixos-26.05.15377.da3240a82aa7",
+    "url": "/nixos/26.05-small/nixos-26.05.15377.da3240a82aa7/nixexprs.tar.xz",
+    "nixexprs_hash": "80f755616cce7ba1fe22125c81087fcb011ffd2c00a2a12b9a31e8ee3f2c458b",
+    "programs_sqlite_hash": "54d5b679e275044d8b72028b61b76cc54181cdc884a650071d765c7164e3f856"
   },
   "26.11": {
-    "name": "nixos-26.11beta289.2289992d5d1e",
-    "url": "/nixos/26.11-small/nixos-26.11beta289.2289992d5d1e/nixexprs.tar.xz",
-    "nixexprs_hash": "394d6d3522145d7380bdd1a10cc1742d67da9ccf416caf156e3ad2fe1376126f",
-    "programs_sqlite_hash": "979eb54389de209a346155921bcc0639772d785efbe0c3ea60ee735cd22e3350"
+    "name": "nixos-26.11beta343.1a6a034a01f0",
+    "url": "/nixos/26.11-small/nixos-26.11beta343.1a6a034a01f0/nixexprs.tar.xz",
+    "nixexprs_hash": "67b16e38db457f28c7df8622037357468bdd99f0f31931cabbcca6faae0f3de1",
+    "programs_sqlite_hash": "0d097b2752ba974d57b8e91e54c5822acbd16dc597e4e0504062bc55f1f942ce"
   },
   "27.05": {
-    "name": "nixos-27.05pre1131632.0c08d75a1e67",
-    "url": "/nixos/unstable-small/nixos-27.05pre1131632.0c08d75a1e67/nixexprs.tar.xz",
-    "nixexprs_hash": "1e413d7dcab88be0daca84cf4fb483ee3db93d1ffb4d8318ec89f0da1a8e4ffb",
-    "programs_sqlite_hash": "e3d41b18e3d64936cf6593b6b09b6e325f752d0080e8a97a148b4de1cb4396d9"
+    "name": "nixos-27.05pre1131830.33254ce1c618",
+    "url": "/nixos/unstable-small/nixos-27.05pre1131830.33254ce1c618/nixexprs.tar.xz",
+    "nixexprs_hash": "019fe0332724f83b69dd3c048b984d3aa728c0f76910f5db3d34177c936e5a17",
+    "programs_sqlite_hash": "3c7e5aed6913077992334f63cb085d5c96ec6e3d56af9e94dca5477a34fa032b"
   }
 }
